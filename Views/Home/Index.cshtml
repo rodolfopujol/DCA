@@ -1,0 +1,73 @@
+@model DashboardDto
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<h2>Dashboard</h2>
+<div class="row mb-3">
+    <div class="col-md-3">
+        <div class="card text-bg-light">
+            <div class="card-body">
+                <h6 class="card-title">Total invertido MXN</h6>
+                <p class="card-text fw-bold">@Model.TotalInvertidoMxn.ToString("C2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-light">
+            <div class="card-body">
+                <h6 class="card-title">Valor actual MXN</h6>
+                <p class="card-text fw-bold">@Model.ValorActualMxn.ToString("C2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-light">
+            <div class="card-body">
+                <h6 class="card-title">PnL MXN</h6>
+                <p class="card-text fw-bold">@Model.PnlMxn.ToString("C2")</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-light">
+            <div class="card-body">
+                <h6 class="card-title">% PnL</h6>
+                <p class="card-text fw-bold">@Model.PnlPorcentaje.ToString("N2") %</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Activo</th>
+            <th>Cantidad</th>
+            <th>Precio USDT</th>
+            <th>Costo prom. USDT</th>
+            <th>Costo prom. MXN</th>
+            <th>Invertido USDT</th>
+            <th>Invertido MXN</th>
+            <th>Valor actual MXN</th>
+            <th>PnL MXN</th>
+            <th>%PnL</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pos in Model.Posiciones)
+        {
+            <tr>
+                <td>@pos.Moneda</td>
+                <td>@pos.Cantidad</td>
+                <td>@pos.PrecioActualUsdt</td>
+                <td>@pos.CostoPromedioUsdt</td>
+                <td>@pos.CostoPromedioMxn</td>
+                <td>@pos.TotalInvertidoUsdt</td>
+                <td>@pos.TotalInvertidoMxn</td>
+                <td>@pos.ValorActualMxn.ToString("C2")</td>
+                <td>@pos.PnlMxn.ToString("C2")</td>
+                <td>@pos.PnlPorcentaje.ToString("N2") %</td>
+            </tr>
+        }
+    </tbody>
+</table>
