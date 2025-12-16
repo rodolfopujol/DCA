@@ -1,39 +1,67 @@
+@using System.Globalization
 @model PreciosDto
 @{
     ViewData["Title"] = "Precios";
+    var culture = new CultureInfo("es-MX");
 }
-<h2>Precios actuales</h2>
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-<form method="post" action="@Url.Action("Guardar")">
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Tipo cambio USDT - MXN</label>
-            <input asp-for="TipoCambioUsdtMxn" class="form-control" />
+
+<div class="row justify-content-center">
+    <div class="col-12 col-xl-10">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h4 class="mb-1">Precios actuales</h4>
+                <p class="text-muted mb-0">Actualiza el tipo de cambio y los precios de activos</p>
+            </div>
         </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Tipo de cambio</h5>
+                <span class="badge bg-gradient-usdt">USDT/MXN</span>
+            </div>
+            <div class="card-body">
+                <form method="post" action="@Url.Action("Guardar")" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Tipo cambio USDT - MXN</label>
+                            <input asp-for="TipoCambioUsdtMxn" class="form-control" placeholder="Ej. 17.10" required />
+                        </div>
+                    </div>
+                    <h6 class="mt-4 mb-3">Activos</h6>
+                    <div class="table-responsive rounded">
+                        <table class="table table-bordered align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Moneda</th>
+                                    <th class="text-end">Precio USDT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Activos.Count; i++)
+                                {
+                                    <tr>
+                                        <td><input asp-for="Activos[i].Moneda" class="form-control" placeholder="BTC" /></td>
+                                        <td><input asp-for="Activos[i].PrecioUsdt" class="form-control text-end" placeholder="0.00" /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-success" type="submit"><i class="bi bi-save me-1"></i>Guardar</button>
+                        <a class="btn btn-secondary" href="@Url.Action("Index", "Home")"><i class="bi bi-x-circle me-1"></i>Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form method="post" action="@Url.Action("SimularActualizacion")" class="text-end">
+            <button class="btn btn-outline-light" type="submit"><i class="bi bi-arrow-clockwise me-1"></i>Actualizar (simulado)</button>
+        </form>
     </div>
-    <h5>Activos</h5>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Moneda</th>
-                <th>Precio USDT</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (int i = 0; i < Model.Activos.Count; i++)
-            {
-                <tr>
-                    <td><input asp-for="Activos[i].Moneda" class="form-control" /></td>
-                    <td><input asp-for="Activos[i].PrecioUsdt" class="form-control" /></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <button class="btn btn-success" type="submit">Guardar</button>
-</form>
-<form method="post" action="@Url.Action("SimularActualizacion")" class="mt-3">
-    <button class="btn btn-secondary" type="submit">Actualizar (simulado)</button>
-</form>
+</div>
