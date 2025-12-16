@@ -1,25 +1,54 @@
 @{
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <h2 class="mb-3">Acceso</h2>
-        <form method="post" action="@Url.Action("Login", "Auth")">
-            <div class="mb-3">
-                <label class="form-label">Usuario</label>
-                <input class="form-control" name="username" required />
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - DCA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/crypto-theme.css" />
+</head>
+<body class="login-wrapper">
+    <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+        <div class="login-card p-4">
+            <div class="d-flex align-items-center mb-3">
+                <div class="brand-icon me-2 d-flex align-items-center justify-content-center" style="width:42px;height:42px;">
+                    <i class="bi bi-shield-lock"></i>
+                </div>
+                <div>
+                    <p class="text-muted mb-0">Acceso seguro</p>
+                    <h4 class="mb-0">DCA Dashboard</h4>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input class="form-control" name="password" type="password" required />
-            </div>
-            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
-            <button class="btn btn-primary w-100" type="submit">Entrar</button>
-        </form>
-        @if (!ViewData.ModelState.IsValid)
-        {
-            <div class="alert alert-danger mt-3">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
-        }
+            <form method="post" action="@Url.Action("Login", "Auth")" novalidate>
+                <div class="mb-3">
+                    <label class="form-label">Usuario</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input class="form-control" name="username" required placeholder="Tu usuario" />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="bi bi-key"></i></span>
+                        <input class="form-control" name="password" type="password" required placeholder="••••••" />
+                    </div>
+                </div>
+                <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                <button class="btn btn-primary w-100 py-2" type="submit"><i class="bi bi-box-arrow-in-right me-2"></i>Entrar</button>
+            </form>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mt-3">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
+            }
+        </div>
     </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
