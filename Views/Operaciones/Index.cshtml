@@ -1,44 +1,58 @@
+@using System.Globalization
 @model IEnumerable<OperacionDto>
 @{
     ViewData["Title"] = "Operaciones";
+    var culture = new CultureInfo("es-MX");
 }
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Operaciones</h2>
-    <a class="btn btn-primary" href="@Url.Action("Crear")">Nueva compra</a>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Operaciones</h4>
+        <p class="text-muted mb-0">Historial de compras y consumos FIFO</p>
+    </div>
+    <a class="btn btn-primary" href="@Url.Action("Crear")"><i class="bi bi-plus-circle me-2"></i>Nueva compra</a>
 </div>
+
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success">@TempData["Success"]</div>
 }
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Moneda</th>
-            <th>Cantidad</th>
-            <th>Pagado</th>
-            <th>Costo MXN</th>
-            <th>Detalle FIFO</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var op in Model)
-        {
-            <tr>
-                <td>@op.Fecha.ToString("yyyy-MM-dd")</td>
-                <td>@op.MonedaComprada</td>
-                <td>@op.CantidadComprada</td>
-                <td>@op.Pago.CostoEnMonedaPago @op.Pago.MonedaPago</td>
-                <td>@op.CostoMxnCalculado.ToString("C2")</td>
-                <td>
-                    <ul class="mb-0">
-                        @foreach (var c in op.DetalleFifo)
-                        {
-                            <li>Lote @c.LoteId: @c.CantidadConsumida x @c.CostoUnitarioMxn = @c.SubtotalMxn</li>
-                        }
-                    </ul>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Moneda</th>
+                        <th class="text-end">Cantidad</th>
+                        <th class="text-end">Pagado</th>
+                        <th class="text-end">Costo MXN</th>
+                        <th>Detalle FIFO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var op in Model)
+                    {
+                        <tr>
+                            <td>@op.Fecha.ToString("yyyy-MM-dd")</td>
+                            <td><span class="badge crypto-badge">@op.MonedaComprada</span></td>
+                            <td class="text-end">@op.CantidadComprada.ToString("N6", culture)</td>
+                            <td class="text-end">@op.Pago.CostoEnMonedaPago.ToString("N2", culture) @op.Pago.MonedaPago</td>
+                            <td class="text-end">@op.CostoMxnCalculado.ToString("C2", culture)</td>
+                            <td>
+                                <ul class="mb-0 small text-muted">
+                                    @foreach (var c in op.DetalleFifo)
+                                    {
+                                        <li>Lote @c.LoteId: @c.CantidadConsumida.ToString("N4", culture) x @c.CostoUnitarioMxn.ToString("C2", culture) = @c.SubtotalMxn.ToString("C2", culture)</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

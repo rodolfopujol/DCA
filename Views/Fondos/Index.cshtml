@@ -1,41 +1,55 @@
+@using System.Globalization
 @model IEnumerable<FondoLoteDto>
 @{
     ViewData["Title"] = "Fondos";
+    var culture = new CultureInfo("es-MX");
 }
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2>Fondos (Lotes)</h2>
-    <a class="btn btn-primary" href="@Url.Action("Crear")">Nuevo lote</a>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="mb-1">Fondos (Lotes)</h4>
+        <p class="text-muted mb-0">Control de capital disponible</p>
+    </div>
+    <a class="btn btn-primary" href="@Url.Action("Crear")"><i class="bi bi-plus-lg me-2"></i>Nuevo lote</a>
 </div>
+
 @if (TempData["Success"] != null)
 {
     <div class="alert alert-success">@TempData["Success"]</div>
 }
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Fecha</th>
-            <th>Moneda</th>
-            <th>Cantidad inicial</th>
-            <th>Cantidad disponible</th>
-            <th>Costo unitario MXN</th>
-            <th>Costo total MXN</th>
-            <th>Nota</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var f in Model)
-        {
-            <tr>
-                <td>@f.Id</td>
-                <td>@f.Fecha.ToString("yyyy-MM-dd")</td>
-                <td>@f.MonedaFondo</td>
-                <td>@f.CantidadInicial</td>
-                <td>@f.CantidadDisponible</td>
-                <td>@f.CostoUnitarioMxn</td>
-                <td>@f.CostoTotalMxn</td>
-                <td>@f.Nota</td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Fecha</th>
+                        <th>Moneda</th>
+                        <th class="text-end">Cantidad inicial</th>
+                        <th class="text-end">Cantidad disponible</th>
+                        <th class="text-end">Costo unitario MXN</th>
+                        <th class="text-end">Costo total MXN</th>
+                        <th>Nota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var f in Model)
+                    {
+                        <tr>
+                            <td>@f.Id</td>
+                            <td>@f.Fecha.ToString("yyyy-MM-dd")</td>
+                            <td><span class="badge crypto-badge">@f.MonedaFondo</span></td>
+                            <td class="text-end">@f.CantidadInicial.ToString("N2", culture)</td>
+                            <td class="text-end">@f.CantidadDisponible.ToString("N2", culture)</td>
+                            <td class="text-end">@f.CostoUnitarioMxn.ToString("C2", culture)</td>
+                            <td class="text-end">@f.CostoTotalMxn.ToString("C2", culture)</td>
+                            <td>@f.Nota</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

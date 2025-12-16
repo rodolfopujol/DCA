@@ -2,45 +2,59 @@
 @{
     ViewData["Title"] = "Nueva operación";
 }
-<h2>Nueva operación (BUY)</h2>
-<form method="post" action="@Url.Action("Crear")">
-    <div class="row">
-        <div class="col-md-3 mb-3">
-            <label class="form-label">Fecha</label>
-            <input asp-for="Fecha" type="date" class="form-control" />
-        </div>
-        <div class="col-md-3 mb-3">
-            <label class="form-label">Moneda comprada</label>
-            <input asp-for="MonedaComprada" class="form-control" />
-        </div>
-        <div class="col-md-3 mb-3">
-            <label class="form-label">Cantidad comprada</label>
-            <input asp-for="CantidadComprada" class="form-control" />
-        </div>
-        <div class="col-md-3 mb-3">
-            <label class="form-label">Moneda de pago</label>
-            <input asp-for="Pago.MonedaPago" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Costo en moneda de pago</label>
-            <input asp-for="Pago.CostoEnMonedaPago" class="form-control" />
-        </div>
-        <div class="col-md-4 mb-3">
-            <label class="form-label">Fee (opcional)</label>
-            <div class="input-group">
-                <span class="input-group-text">Moneda</span>
-                <input asp-for="Fee.Moneda" class="form-control" />
-                <span class="input-group-text">Monto</span>
-                <input asp-for="Fee.Monto" class="form-control" />
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Nueva operación (BUY)</h5>
+                <span class="badge bg-gradient-usdt">Cripto</span>
+            </div>
+            <div class="card-body">
+                <form method="post" action="@Url.Action("Crear")" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Fecha</label>
+                            <input asp-for="Fecha" type="date" class="form-control" required />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Moneda comprada</label>
+                            <input asp-for="MonedaComprada" class="form-control" placeholder="BTC / ETH" required />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Cantidad comprada</label>
+                            <input asp-for="CantidadComprada" class="form-control" placeholder="0.0000" required />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Moneda de pago</label>
+                            <input asp-for="Pago.MonedaPago" class="form-control" placeholder="USDT / MXN" required />
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-4">
+                            <label class="form-label">Costo en moneda de pago</label>
+                            <input asp-for="Pago.CostoEnMonedaPago" class="form-control" placeholder="0.00" required />
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Fee (opcional)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-coin"></i></span>
+                                <input asp-for="Fee.Moneda" class="form-control" placeholder="Moneda" />
+                                <span class="input-group-text">Monto</span>
+                                <input asp-for="Fee.Monto" class="form-control" placeholder="0.00" />
+                            </div>
+                        </div>
+                    </div>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger mt-3">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
+                    }
+                    <div class="d-flex gap-2 mt-4">
+                        <button class="btn btn-success" type="submit"><i class="bi bi-check2 me-1"></i>Guardar</button>
+                        <a class="btn btn-secondary" href="@Url.Action("Index")"><i class="bi bi-arrow-left-circle me-1"></i>Cancelar</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div class="alert alert-danger">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
-    }
-    <button class="btn btn-success" type="submit">Guardar</button>
-    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancelar</a>
-</form>
+</div>
