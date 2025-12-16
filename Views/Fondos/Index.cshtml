@@ -1,0 +1,41 @@
+@model IEnumerable<FondoLoteDto>
+@{
+    ViewData["Title"] = "Fondos";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Fondos (Lotes)</h2>
+    <a class="btn btn-primary" href="@Url.Action("Crear")">Nuevo lote</a>
+</div>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Moneda</th>
+            <th>Cantidad inicial</th>
+            <th>Cantidad disponible</th>
+            <th>Costo unitario MXN</th>
+            <th>Costo total MXN</th>
+            <th>Nota</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var f in Model)
+        {
+            <tr>
+                <td>@f.Id</td>
+                <td>@f.Fecha.ToString("yyyy-MM-dd")</td>
+                <td>@f.MonedaFondo</td>
+                <td>@f.CantidadInicial</td>
+                <td>@f.CantidadDisponible</td>
+                <td>@f.CostoUnitarioMxn</td>
+                <td>@f.CostoTotalMxn</td>
+                <td>@f.Nota</td>
+            </tr>
+        }
+    </tbody>
+</table>

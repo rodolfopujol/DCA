@@ -1,0 +1,7 @@
+/bin/
+/obj/
+/.vs/
+/bin/Release/
+/bin/Debug/
+*.user
+*.swp

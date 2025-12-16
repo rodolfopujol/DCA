@@ -1,0 +1,46 @@
+@model OperacionDto
+@{
+    ViewData["Title"] = "Nueva operación";
+}
+<h2>Nueva operación (BUY)</h2>
+<form method="post" action="@Url.Action("Crear")">
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Fecha</label>
+            <input asp-for="Fecha" type="date" class="form-control" />
+        </div>
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Moneda comprada</label>
+            <input asp-for="MonedaComprada" class="form-control" />
+        </div>
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Cantidad comprada</label>
+            <input asp-for="CantidadComprada" class="form-control" />
+        </div>
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Moneda de pago</label>
+            <input asp-for="Pago.MonedaPago" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Costo en moneda de pago</label>
+            <input asp-for="Pago.CostoEnMonedaPago" class="form-control" />
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Fee (opcional)</label>
+            <div class="input-group">
+                <span class="input-group-text">Moneda</span>
+                <input asp-for="Fee.Moneda" class="form-control" />
+                <span class="input-group-text">Monto</span>
+                <input asp-for="Fee.Monto" class="form-control" />
+            </div>
+        </div>
+    </div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
+    }
+    <button class="btn btn-success" type="submit">Guardar</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancelar</a>
+</form>

@@ -1,0 +1,44 @@
+@model IEnumerable<OperacionDto>
+@{
+    ViewData["Title"] = "Operaciones";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Operaciones</h2>
+    <a class="btn btn-primary" href="@Url.Action("Crear")">Nueva compra</a>
+</div>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Moneda</th>
+            <th>Cantidad</th>
+            <th>Pagado</th>
+            <th>Costo MXN</th>
+            <th>Detalle FIFO</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var op in Model)
+        {
+            <tr>
+                <td>@op.Fecha.ToString("yyyy-MM-dd")</td>
+                <td>@op.MonedaComprada</td>
+                <td>@op.CantidadComprada</td>
+                <td>@op.Pago.CostoEnMonedaPago @op.Pago.MonedaPago</td>
+                <td>@op.CostoMxnCalculado.ToString("C2")</td>
+                <td>
+                    <ul class="mb-0">
+                        @foreach (var c in op.DetalleFifo)
+                        {
+                            <li>Lote @c.LoteId: @c.CantidadConsumida x @c.CostoUnitarioMxn = @c.SubtotalMxn</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
